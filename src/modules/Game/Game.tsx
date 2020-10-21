@@ -141,8 +141,6 @@ export function Game({
     [board]
   )
 
-  console.log({ board, mines, width, height })
-
   return (
     <main className="board">
       {board.map((rows, rowIndex) => {
