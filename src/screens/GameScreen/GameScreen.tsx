@@ -1,12 +1,14 @@
 import React, { useCallback, useState } from 'react'
 
-import { Difficulty, GameStatus, IN_PROGRESS_STATUSES } from '../model/Game'
-import { difficulties } from '../model/const'
-import { Button } from '../components/Button'
+import { Difficulty, GameStatus, IN_PROGRESS_STATUSES } from '../../model/Game'
+import { difficulties } from '../../model/const'
+import { Button } from '../../components/Button'
 
-import { DifficultyPicker } from './DifficultyPicker'
-import { Game } from './Game'
-import { useStoredState } from '../utils/useStoredState'
+import { DifficultyPicker } from '../../modules/DifficultyPicker'
+import { Game } from '../../modules/Game'
+import { useStoredState } from '../../utils/useStoredState'
+
+import './gameScreen.css'
 
 export function GameScreen() {
   const [difficulty, setDifficulty] = useStoredState<Difficulty>('difficulty')
@@ -47,17 +49,19 @@ export function GameScreen() {
 
   return (
     <div>
-      {isInProgress ? (
-        <Button onClick={handleTryAgain}>Try Again</Button>
-      ) : (
-        <>
-          <DifficultyPicker selected={difficulty} onChange={setDifficulty} />
+      <DifficultyPicker disabled={isInProgress} selected={difficulty} onChange={setDifficulty} />
 
-          <Button disabled={!difficulty} onClick={handleGameStart}>
-            Start game
-          </Button>
-        </>
-      )}
+      <div className="game-screen--buttons">
+        {isInProgress ? (
+          <Button onClick={handleTryAgain}>Try Again</Button>
+        ) : (
+          <>
+            <Button disabled={!difficulty} onClick={handleGameStart}>
+              Start game
+            </Button>
+          </>
+        )}
+      </div>
 
       {isInProgress && difficultyInfo && <Game onStatusChange={handleGameEnd} {...difficultyInfo.parameters} />}
     </div>

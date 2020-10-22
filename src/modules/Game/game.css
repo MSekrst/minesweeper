@@ -1,3 +1,8 @@
+.board {
+  overflow: auto;
+  margin-top: 16px;
+}
+
 .board .row {
   display: flex;
   align-items: center;

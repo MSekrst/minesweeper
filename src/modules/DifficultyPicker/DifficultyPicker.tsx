@@ -4,12 +4,16 @@ import { Difficulty } from '../../model/Game'
 import { difficulties } from '../../model/const'
 import { RadioGroup } from '../../components/Radio'
 
+import './difficultyPicker.css'
+
 export function _DifficultyPicker({
   selected,
   onChange,
+  disabled,
 }: {
   selected?: Difficulty
   onChange: (difficulty: Difficulty) => void
+  disabled?: boolean
 }) {
   const handleChange = useCallback(
     (newDifficulty: string) => {
@@ -18,14 +22,26 @@ export function _DifficultyPicker({
     [onChange]
   )
 
+  if (disabled) {
+    const playingDifficulty = difficulties.find(d => d.value === selected)
+
+    if (!playingDifficulty) {
+      return null
+    }
+
+    return <div className="difficulty-picker">{playingDifficulty.label}</div>
+  }
+
   return (
-    <RadioGroup
-      name="difficulty"
-      label="Choose difficulty"
-      options={difficulties}
-      selectedValue={selected}
-      onChange={handleChange}
-    />
+    <div className="difficulty-picker">
+      <RadioGroup
+        name="difficulty"
+        label="Choose difficulty"
+        options={difficulties}
+        selectedValue={selected}
+        onChange={handleChange}
+      />
+    </div>
   )
 }
 
