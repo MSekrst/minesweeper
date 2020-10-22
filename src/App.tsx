@@ -5,6 +5,8 @@ import { Header } from './screens/Header'
 
 import './base.css'
 
+// TODO: add favicon
+
 function App() {
   return (
     <>
