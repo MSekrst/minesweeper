@@ -30,7 +30,7 @@
 }
 
 .cell.wrong {
-  background-color: #91080f;
+  background-color: tomato;
 }
 
 .cell.numbered {

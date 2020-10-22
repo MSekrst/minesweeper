@@ -1,7 +1,8 @@
-import React, { ChangeEvent, useCallback } from 'react'
+import React, { useCallback } from 'react'
 
 import { Difficulty } from '../../model/Game'
 import { difficulties } from '../../model/const'
+import { RadioGroup } from '../../components/Radio'
 
 export function _DifficultyPicker({
   selected,
@@ -11,23 +12,20 @@ export function _DifficultyPicker({
   onChange: (difficulty: Difficulty) => void
 }) {
   const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      onChange(e.currentTarget.value as Difficulty)
+    (newDifficulty: string) => {
+      onChange(newDifficulty as Difficulty)
     },
     [onChange]
   )
 
   return (
-    <div>
-      <h3>Choose difficulty</h3>
-      <br />
-      {difficulties.map(({ label, value }) => (
-        <label key={value}>
-          <input type="radio" name="difficulty" value={value} checked={selected === value} onChange={handleChange} />
-          <span>{label}</span>
-        </label>
-      ))}
-    </div>
+    <RadioGroup
+      name="difficulty"
+      label="Choose difficulty"
+      options={difficulties}
+      selectedValue={selected}
+      onChange={handleChange}
+    />
   )
 }
 

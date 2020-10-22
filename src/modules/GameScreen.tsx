@@ -6,10 +6,10 @@ import { Button } from '../components/Button'
 
 import { DifficultyPicker } from './DifficultyPicker'
 import { Game } from './Game'
+import { useStoredState } from '../utils/useStoredState'
 
 export function GameScreen() {
-  // TODO: load previous difficulty
-  const [difficulty, setDifficulty] = useState<Difficulty>()
+  const [difficulty, setDifficulty] = useStoredState<Difficulty>('difficulty')
   const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.NotStarted)
   const [startTimestamp, setStartTimestamp] = useState<number>(Date.now())
 
