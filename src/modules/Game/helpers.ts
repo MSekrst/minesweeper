@@ -107,8 +107,6 @@ export function propagateToEmpty(board: CellInfo[][], params: GetNeighborsArgs) 
     return cell.visibleStatus === VisibleCellStatus.Closed && cell.status === CellStatus.Clear
   })
 
-  console.log(emptyNeighbors)
-
   emptyNeighbors.forEach(candidate => {
     const cell = board[candidate.x][candidate.y]
 

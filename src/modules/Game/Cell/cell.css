@@ -12,13 +12,11 @@
   cursor: pointer;
 }
 
-.cell.closed {
-}
-.cell.exploded {
-}
-.cell.mine {
-}
+.cell.closed,
+.cell.exploded,
+.cell.mine,
 .cell.empty {
+  user-select: none;
 }
 
 .cell.opened {
@@ -32,7 +30,7 @@
 }
 
 .cell.wrong {
-  background-color: rgba(255, 0, 0, 0.3);
+  background-color: #91080f;
 }
 
 .cell.numbered {
