@@ -35,6 +35,7 @@
 
 .cell.numbered {
   cursor: pointer;
+  user-select: none;
 }
 
 .cell.numbered.numbered-1 {

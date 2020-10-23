@@ -1,5 +1,6 @@
 .board {
   overflow: auto;
+  border: 2px solid tomato;
   margin-top: 16px;
 }
 
