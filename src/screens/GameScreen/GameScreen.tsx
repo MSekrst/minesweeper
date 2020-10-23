@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import { Difficulty, GameStatus, IN_PROGRESS_STATUSES } from '../../model/Game'
 import { difficulties } from '../../model/const'
@@ -15,15 +15,31 @@ export function GameScreen() {
   const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.NotStarted)
   const [startTimestamp, setStartTimestamp] = useState<number>(Date.now())
 
+  const [isRestarted, setIsRestarted] = useState<boolean>(false)
+
   const handleGameStart = useCallback(() => {
     setGameStatus(GameStatus.ToBeStarted)
 
     setStartTimestamp(Date.now())
   }, [])
 
-  const handleTryAgain = useCallback(() => {
+  const handleChangeDifficulty = useCallback(() => {
     setGameStatus(GameStatus.NotStarted)
   }, [])
+
+  const handleGameRestart = useCallback(() => {
+    setGameStatus(GameStatus.NotStarted)
+
+    setIsRestarted(true)
+  }, [])
+
+  useEffect(() => {
+    if (isRestarted) {
+      setIsRestarted(false)
+
+      handleGameStart()
+    }
+  }, [handleGameStart, isRestarted])
 
   const handleGameEnd = useCallback(
     (status: GameStatus) => {
@@ -48,12 +64,17 @@ export function GameScreen() {
   const difficultyInfo = difficulty && difficulties.find(d => d.value === difficulty)
 
   return (
-    <div>
+    <>
       <DifficultyPicker disabled={isInProgress} selected={difficulty} onChange={setDifficulty} />
 
       <div className="game-screen--buttons">
         {isInProgress ? (
-          <Button onClick={handleTryAgain}>Try Again</Button>
+          <>
+            <Button onClick={handleChangeDifficulty}>Change difficulty</Button>
+            <Button style={{ marginLeft: 8 }} onClick={handleGameRestart}>
+              Try again
+            </Button>
+          </>
         ) : (
           <>
             <Button disabled={!difficulty} onClick={handleGameStart}>
@@ -64,6 +85,6 @@ export function GameScreen() {
       </div>
 
       {isInProgress && difficultyInfo && <Game onStatusChange={handleGameEnd} {...difficultyInfo.parameters} />}
-    </div>
+    </>
   )
 }
