@@ -1,7 +1,17 @@
+.board--counter {
+  margin: 12px 0 8px;
+  text-align: center;
+}
+
+.board--counter .board--counter__count {
+  color: tomato;
+  font-weight: 700;
+  margin-left: 4px;
+}
+
 .board {
   overflow: auto;
   border: 2px solid tomato;
-  margin-top: 16px;
 }
 
 .board .row {

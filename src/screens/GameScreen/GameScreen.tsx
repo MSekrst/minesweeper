@@ -64,15 +64,15 @@ export function GameScreen() {
   const difficultyInfo = difficulty && difficulties.find(d => d.value === difficulty)
 
   return (
-    <>
+    <div>
       <DifficultyPicker disabled={isInProgress} selected={difficulty} onChange={setDifficulty} />
 
       <div className="game-screen--buttons">
         {isInProgress ? (
           <>
-            <Button onClick={handleChangeDifficulty}>Change difficulty</Button>
+            <Button onClick={handleChangeDifficulty}>Go back</Button>
             <Button style={{ marginLeft: 8 }} onClick={handleGameRestart}>
-              Try again
+              Restart
             </Button>
           </>
         ) : (
@@ -85,6 +85,6 @@ export function GameScreen() {
       </div>
 
       {isInProgress && difficultyInfo && <Game onStatusChange={handleGameEnd} {...difficultyInfo.parameters} />}
-    </>
+    </div>
   )
 }

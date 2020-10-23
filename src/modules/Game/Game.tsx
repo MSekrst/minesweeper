@@ -141,22 +141,38 @@ export function Game({
     [board]
   )
 
-  return (
-    <main className="board">
-      {board.map((rows, rowIndex) => {
-        return (
-          <section key={rowIndex} className="row">
-            {rows.map((cell, columnIndex) => {
-              // TODO: fast open action on number click
-              const mainClick = isFinished ? noop : handleMainAction(rowIndex, columnIndex, cell)
-              const secondaryClick = isFinished ? noop : handleSecondaryAction(rowIndex, columnIndex, cell)
+  let minesMarked = 0
+  board.forEach(row =>
+    row.forEach(cell => {
+      if (cell.visibleStatus === VisibleCellStatus.Marked) {
+        minesMarked += 1
+      }
+    })
+  )
 
-              // TODO: consider sending coordinates to allow memoization
-              return <Cell key={columnIndex} {...cell} onSecondaryClick={secondaryClick} onClick={mainClick} />
-            })}
-          </section>
-        )
-      })}
-    </main>
+  const nonMarkedMines = mines - minesMarked
+
+  return (
+    <>
+      <div className="board--counter">
+        Mines Left: <span className="board--counter__count">{nonMarkedMines}</span>
+      </div>
+      <main className="board">
+        {board.map((rows, rowIndex) => {
+          return (
+            <section key={rowIndex} className="row">
+              {rows.map((cell, columnIndex) => {
+                // TODO: fast open action on number click
+                const mainClick = isFinished ? noop : handleMainAction(rowIndex, columnIndex, cell)
+                const secondaryClick = isFinished ? noop : handleSecondaryAction(rowIndex, columnIndex, cell)
+
+                // TODO: consider sending coordinates to allow memoization
+                return <Cell key={columnIndex} {...cell} onSecondaryClick={secondaryClick} onClick={mainClick} />
+              })}
+            </section>
+          )
+        })}
+      </main>
+    </>
   )
 }
