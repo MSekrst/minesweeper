@@ -19,7 +19,7 @@ export const difficulties = [
       </div>
     ),
     value: Difficulty.Medium,
-    parameters: { mines: 35, width: 15, height: 15 },
+    parameters: { mines: 35, width: 15, height: 15, helpers: 1 },
   },
   {
     label: (
@@ -28,7 +28,7 @@ export const difficulties = [
       </div>
     ),
     value: Difficulty.Hard,
-    parameters: { mines: 100, width: 24, height: 24 },
+    parameters: { mines: 100, width: 24, height: 24, helpers: 2 },
   },
   {
     label: (
@@ -37,6 +37,6 @@ export const difficulties = [
       </div>
     ),
     value: Difficulty.Extreme,
-    parameters: { mines: 200, width: 30, height: 30 },
+    parameters: { mines: 200, width: 30, height: 30, helpers: 3 },
   },
 ]

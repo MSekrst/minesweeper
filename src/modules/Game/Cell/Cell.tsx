@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 
-import { Bomb, Flag } from '../../../components/Icons'
+import { Bomb, Flag, Help } from '../../../components/Icons'
 import { PRIMARY_CLICK_STATUSES, SECONDARY_CLICK_STATUSES, VisibleCellStatus } from '../../../model/Game'
 
 import { CellInfo } from '../interface'
@@ -56,6 +56,20 @@ export const Cell = React.memo(
         return (
           <div {...commonProps} className="cell opened exploded">
             <Bomb fill="tomato" />
+          </div>
+        )
+
+      case VisibleCellStatus.Helper:
+        return (
+          <div {...commonProps} className="cell helper">
+            <Help fill="green" />
+          </div>
+        )
+
+      case VisibleCellStatus.Defused:
+        return (
+          <div {...commonProps} className="cell opened defused">
+            <Flag fill="green" />
           </div>
         )
 

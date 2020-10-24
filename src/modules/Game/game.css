@@ -1,12 +1,28 @@
-.board--counter {
+.board-counters {
   margin: 12px 0 8px;
-  text-align: center;
+  display: flex;
+  align-items: center;
 }
 
-.board--counter .board--counter__count {
-  color: tomato;
+.board--counter {
   font-weight: 700;
   margin-left: 4px;
+}
+
+.board--counter--label {
+  margin-right: 4px;
+}
+
+.board--counter + .board--counter--label {
+  margin-left: 16px;
+}
+
+.board--counter.mines {
+  color: tomato;
+}
+
+.board--counter.helpers {
+  color: green;
 }
 
 .board {

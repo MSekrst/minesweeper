@@ -15,7 +15,9 @@
 .cell.closed,
 .cell.exploded,
 .cell.mine,
-.cell.empty {
+.cell.empty,
+.cell.helper,
+.cell.defused {
   user-select: none;
 }
 

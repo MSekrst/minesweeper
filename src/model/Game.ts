@@ -36,10 +36,14 @@ export enum VisibleCellStatus {
   Opened = 'opened',
   WrongMarked = 'wrong',
   ShowMine = 'show',
+  Helper = 'helper',
+  Defused = 'defused',
   // TODO: add doubtful status
   // Doubtful = 'doubtful',
 }
 
-export const PRIMARY_CLICK_STATUSES = [VisibleCellStatus.Opened, VisibleCellStatus.Closed]
+export const PRIMARY_CLICK_STATUSES = [VisibleCellStatus.Opened, VisibleCellStatus.Closed, VisibleCellStatus.Helper]
 
-export const SECONDARY_CLICK_STATUSES = [VisibleCellStatus.Closed, VisibleCellStatus.Marked]
+export const SECONDARY_CLICK_STATUSES = [VisibleCellStatus.Closed, VisibleCellStatus.Marked, VisibleCellStatus.Helper]
+
+export const MINE_COUNT_STATUSES = [VisibleCellStatus.Marked, VisibleCellStatus.Defused]

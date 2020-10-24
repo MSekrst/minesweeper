@@ -5,7 +5,14 @@ import './game.css'
 import { CellStatus, GameStatus, VisibleCellStatus } from '../../model/Game'
 import { Cell } from './Cell/Cell'
 
-import { generateGameBoard, propagateToEmpty, validateBoard, getNeighbours } from './helpers'
+import {
+  generateGameBoard,
+  propagateToEmpty,
+  validateBoard,
+  getNeighbours,
+  countMarkedMines,
+  countMarkedNeighbors,
+} from './helpers'
 import { CellInfo } from './interface'
 
 const noop = () => {}
@@ -15,14 +22,17 @@ export function Game({
   mines,
   width,
   height,
+  helpers,
 }: {
   onStatusChange: (status: GameStatus) => void
   mines: number
   width: number
   height: number
+  helpers?: number
 }) {
   const [board, setBoard] = useState(generateGameBoard(width, height, mines))
   const [isFinished, setIsFinished] = useState(false)
+  const [helpersAvailable, setHelpersAvailable] = useState(helpers || 0)
 
   const openMineCell = useCallback(
     (x: number, y: number) => {
@@ -76,14 +86,11 @@ export function Game({
 
   const openNeighbors = useCallback(
     (x: number, y: number, neighborMines: number) => {
-      const neighbors = getNeighbours({ x, y, maxX: width - 1, maxY: height - 1 })
-
-      const markedNeighbors = neighbors.filter(
-        candidate => board[candidate.x][candidate.y].visibleStatus === VisibleCellStatus.Marked
-      )
+      const markedNeighbors = countMarkedNeighbors(board, { x, y, maxX: width - 1, maxY: height - 1 })
 
       // open only if all mines marked -> can be wrong marked!
-      if (markedNeighbors.length === neighborMines) {
+      if (markedNeighbors === neighborMines) {
+        const neighbors = getNeighbours({ x, y, maxX: width - 1, maxY: height - 1 })
         const closedNeighbors = neighbors.filter(
           candidate => board[candidate.x][candidate.y].visibleStatus === VisibleCellStatus.Closed
         )
@@ -104,11 +111,28 @@ export function Game({
     [board, height, width, openMineCell, openClearCell]
   )
 
+  const openDefusedMineCell = useCallback(
+    (x: number, y: number) => {
+      let newBoard = [...board]
+
+      newBoard[x][y].visibleStatus = VisibleCellStatus.Defused
+
+      setBoard(newBoard)
+    },
+    [board]
+  )
+
   const handleMainAction = useCallback(
     (x: number, y: number, cell: CellInfo) => () => {
       const { visibleStatus, status, extra } = cell
 
-      if (status === CellStatus.Mine) {
+      if (visibleStatus === VisibleCellStatus.Helper) {
+        if (status === CellStatus.Mine) {
+          openDefusedMineCell(x, y)
+        } else {
+          openClearCell(x, y, extra!)
+        }
+      } else if (status === CellStatus.Mine) {
         openMineCell(x, y)
       } else if (visibleStatus === VisibleCellStatus.Closed) {
         openClearCell(x, y, extra!)
@@ -116,7 +140,7 @@ export function Game({
         openNeighbors(x, y, extra!)
       }
     },
-    [openMineCell, openClearCell, openNeighbors]
+    [openMineCell, openClearCell, openNeighbors, openDefusedMineCell]
   )
 
   const handleSecondaryAction = useCallback(
@@ -125,8 +149,24 @@ export function Game({
 
       const { visibleStatus } = cell
 
-      if (visibleStatus === VisibleCellStatus.Marked) {
+      if (visibleStatus === VisibleCellStatus.Helper) {
         newBoard[x][y].visibleStatus = VisibleCellStatus.Closed
+
+        // return helper as it is not used
+        setHelpersAvailable(helpersAvailable + 1)
+
+        return setBoard(newBoard)
+      }
+
+      if (visibleStatus === VisibleCellStatus.Marked) {
+        if (helpersAvailable) {
+          newBoard[x][y].visibleStatus = VisibleCellStatus.Helper
+
+          // assign only available helpers
+          setHelpersAvailable(helpersAvailable - 1)
+        } else {
+          newBoard[x][y].visibleStatus = VisibleCellStatus.Closed
+        }
 
         return setBoard(newBoard)
       }
@@ -138,24 +178,18 @@ export function Game({
       }
     },
 
-    [board]
+    [board, helpersAvailable]
   )
 
-  let minesMarked = 0
-  board.forEach(row =>
-    row.forEach(cell => {
-      if (cell.visibleStatus === VisibleCellStatus.Marked) {
-        minesMarked += 1
-      }
-    })
-  )
-
-  const nonMarkedMines = mines - minesMarked
+  const nonMarkedMines = mines - countMarkedMines(board)
 
   return (
     <>
-      <div className="board--counter">
-        Mines Left: <span className="board--counter__count">{nonMarkedMines}</span>
+      <div className="board-counters">
+        <span className="board--counter--label">Mines Left:</span>
+        <span className="board--counter mines">{nonMarkedMines}</span>
+        <span className="board--counter--label">Helpers left:</span>
+        <span className="board--counter helpers">{helpersAvailable}</span>
       </div>
       <main className="board">
         {board.map((rows, rowIndex) => {

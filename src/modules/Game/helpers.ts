@@ -1,4 +1,4 @@
-import { CellStatus, VisibleCellStatus } from '../../model/Game'
+import { CellStatus, VisibleCellStatus, MINE_COUNT_STATUSES } from '../../model/Game'
 import { CellInfo } from './interface'
 
 function generateEmptyBoard(width: number, height: number) {
@@ -144,4 +144,28 @@ export function validateBoard(board: CellInfo[][]) {
   }
 
   return board
+}
+
+export function countMarkedMines(board: CellInfo[][]) {
+  let minesMarked = 0
+
+  board.forEach(row =>
+    row.forEach(cell => {
+      if (MINE_COUNT_STATUSES.includes(cell.visibleStatus)) {
+        minesMarked += 1
+      }
+    })
+  )
+
+  return minesMarked
+}
+
+export function countMarkedNeighbors(board: CellInfo[][], params: GetNeighborsArgs) {
+  const neighbors = getNeighbours(params)
+
+  const markedNeighbors = neighbors.filter(candidate =>
+    MINE_COUNT_STATUSES.includes(board[candidate.x][candidate.y].visibleStatus)
+  )
+
+  return markedNeighbors.length
 }
