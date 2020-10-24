@@ -1,3 +1,3 @@
 export { Flag } from './Flag'
-export { Bomb } from './Bomb'
+export { Mine } from './Bomb'
 export { Help } from './Help'
