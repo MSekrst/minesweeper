@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Help = React.memo(({ size = 18, fill = 'black' }: { size?: number; fill?: string }) => {
+export const Help = React.memo(({ size = 18, fill = 'green' }: { size?: number; fill?: string }) => {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size}>
       <path fill="none" d="M0 0H24V24H0z" />

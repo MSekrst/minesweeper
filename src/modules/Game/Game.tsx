@@ -103,7 +103,7 @@ export function Game({
             openMineCell(candidate.x, candidate.y)
             return
           } else if (cell.status === CellStatus.Clear) {
-            openClearCell(candidate.x, candidate.y, cell.extra!)
+            openClearCell(candidate.x, candidate.y, cell.mines!)
           }
         }
       }
@@ -124,20 +124,20 @@ export function Game({
 
   const handleMainAction = useCallback(
     (x: number, y: number, cell: CellInfo) => () => {
-      const { visibleStatus, status, extra } = cell
+      const { visibleStatus, status, mines } = cell
 
       if (visibleStatus === VisibleCellStatus.Helper) {
         if (status === CellStatus.Mine) {
           openDefusedMineCell(x, y)
         } else {
-          openClearCell(x, y, extra!)
+          openClearCell(x, y, mines!)
         }
       } else if (status === CellStatus.Mine) {
         openMineCell(x, y)
       } else if (visibleStatus === VisibleCellStatus.Closed) {
-        openClearCell(x, y, extra!)
-      } else if (visibleStatus === VisibleCellStatus.Opened && extra! > 0) {
-        openNeighbors(x, y, extra!)
+        openClearCell(x, y, mines!)
+      } else if (visibleStatus === VisibleCellStatus.Opened && mines! > 0) {
+        openNeighbors(x, y, mines!)
       }
     },
     [openMineCell, openClearCell, openNeighbors, openDefusedMineCell]

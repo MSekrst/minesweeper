@@ -67,7 +67,7 @@ function fillMinesInfo(board: CellInfo[][]) {
         }
       })
 
-      board[x][y].extra = minesCount
+      board[x][y].mines = minesCount
     }
   }
 
@@ -112,7 +112,7 @@ export function propagateToEmpty(board: CellInfo[][], params: GetNeighborsArgs) 
 
     board[candidate.x][candidate.y].visibleStatus = VisibleCellStatus.Opened
 
-    if (cell.extra === 0) {
+    if (cell.mines === 0) {
       propagateToEmpty(board, { ...params, x: candidate.x, y: candidate.y })
     }
   })

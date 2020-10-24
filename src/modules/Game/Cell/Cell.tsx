@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 
-import { Bomb, Flag, Help } from '../../../components/Icons'
+import { Mine, Flag, Help } from '../../../components/Icons'
 import { PRIMARY_CLICK_STATUSES, SECONDARY_CLICK_STATUSES, VisibleCellStatus } from '../../../model/Game'
 
 import { CellInfo } from '../interface'
@@ -12,7 +12,7 @@ const noop = () => {}
 export const Cell = React.memo(
   ({
     visibleStatus,
-    extra,
+    mines,
     onClick,
     onSecondaryClick,
   }: CellInfo & { onClick: () => void; onSecondaryClick: () => void }) => {
@@ -37,11 +37,11 @@ export const Cell = React.memo(
 
     switch (visibleStatus) {
       case VisibleCellStatus.Opened:
-        return extra === 0 ? (
+        return mines === 0 ? (
           <div {...commonProps} className="cell opened empty" />
         ) : (
-          <div {...commonProps} className={`cell opened numbered numbered-${extra}`}>
-            {extra}
+          <div {...commonProps} className={`cell opened numbered numbered-${mines}`}>
+            {mines}
           </div>
         )
 
@@ -55,14 +55,14 @@ export const Cell = React.memo(
       case VisibleCellStatus.Exploded:
         return (
           <div {...commonProps} className="cell opened exploded">
-            <Bomb fill="tomato" />
+            <Mine fill="tomato" />
           </div>
         )
 
       case VisibleCellStatus.Helper:
         return (
           <div {...commonProps} className="cell helper">
-            <Help fill="green" />
+            <Help />
           </div>
         )
 
@@ -79,7 +79,7 @@ export const Cell = React.memo(
       case VisibleCellStatus.ShowMine:
         return (
           <div {...commonProps} className="cell mine">
-            <Bomb />
+            <Mine />
           </div>
         )
 

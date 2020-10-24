@@ -12,13 +12,17 @@
   cursor: pointer;
 }
 
-.cell.closed,
+.cell.closed {
+  user-select: none;
+}
+
 .cell.exploded,
 .cell.mine,
 .cell.empty,
 .cell.helper,
 .cell.defused {
   user-select: none;
+  cursor: default;
 }
 
 .cell.opened {
