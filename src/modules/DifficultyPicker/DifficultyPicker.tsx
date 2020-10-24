@@ -6,43 +6,43 @@ import { RadioGroup } from '../../components/Radio'
 
 import './difficultyPicker.css'
 
-export function _DifficultyPicker({
-  selected,
-  onChange,
-  disabled,
-}: {
-  selected?: Difficulty
-  onChange: (difficulty: Difficulty) => void
-  disabled?: boolean
-}) {
-  const handleChange = useCallback(
-    (newDifficulty: string) => {
-      onChange(newDifficulty as Difficulty)
-    },
-    [onChange]
-  )
+export const DifficultyPicker = React.memo(
+  ({
+    selected,
+    onChange,
+    disabled,
+  }: {
+    selected?: Difficulty
+    onChange: (difficulty: Difficulty) => void
+    disabled?: boolean
+  }) => {
+    const handleChange = useCallback(
+      (newDifficulty: string) => {
+        onChange(newDifficulty as Difficulty)
+      },
+      [onChange]
+    )
 
-  if (disabled) {
-    const playingDifficulty = difficulties.find(d => d.value === selected)
+    if (disabled) {
+      const playingDifficulty = difficulties.find(d => d.value === selected)
 
-    if (!playingDifficulty) {
-      return null
+      if (!playingDifficulty) {
+        return null
+      }
+
+      return <div className="difficulty-picker">{playingDifficulty.label}</div>
     }
 
-    return <div className="difficulty-picker">{playingDifficulty.label}</div>
+    return (
+      <div className="difficulty-picker">
+        <RadioGroup
+          name="difficulty"
+          label="Choose difficulty"
+          options={difficulties}
+          selectedValue={selected}
+          onChange={handleChange}
+        />
+      </div>
+    )
   }
-
-  return (
-    <div className="difficulty-picker">
-      <RadioGroup
-        name="difficulty"
-        label="Choose difficulty"
-        options={difficulties}
-        selectedValue={selected}
-        onChange={handleChange}
-      />
-    </div>
-  )
-}
-
-export const DifficultyPicker = React.memo(_DifficultyPicker)
+)

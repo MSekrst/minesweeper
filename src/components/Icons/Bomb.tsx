@@ -1,6 +1,6 @@
 import React from 'react'
 
-export function Bomb({ size = 18, fill = 'black' }: { size?: number; fill?: string }) {
+export const Bomb = React.memo(({ size = 18, fill = 'black' }: { size?: number; fill?: string }) => {
   return (
     <svg viewBox="0 0 512 512" width={size} height={size}>
       <path
@@ -9,4 +9,4 @@ export function Bomb({ size = 18, fill = 'black' }: { size?: number; fill?: stri
       />
     </svg>
   )
-}
+})

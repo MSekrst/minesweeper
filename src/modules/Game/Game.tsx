@@ -162,7 +162,6 @@ export function Game({
           return (
             <section key={rowIndex} className="row">
               {rows.map((cell, columnIndex) => {
-                // TODO: fast open action on number click
                 const mainClick = isFinished ? noop : handleMainAction(rowIndex, columnIndex, cell)
                 const secondaryClick = isFinished ? noop : handleSecondaryAction(rowIndex, columnIndex, cell)
 
