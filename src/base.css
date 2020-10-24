@@ -8,3 +8,22 @@ html {
   flex-direction: column;
   align-items: center;
 }
+
+a,
+a:visited {
+  padding: 4px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 18px;
+  font-weight: 700;
+  color: tomato;
+  transition: border-bottom 0.25s ease-in-out;
+}
+
+a:hover {
+  border-bottom: 1px solid;
+}
+
+a.nav {
+  color: black;
+}
