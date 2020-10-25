@@ -80,11 +80,11 @@ export function Game({ onStatusChange }: { onStatusChange: (status: GameEndStatu
 
   const openNeighbors = useCallback(
     (x: number, y: number, neighborMines: number) => {
-      const markedNeighbors = countMarkedNeighbors(board, { x, y, maxX: width - 1, maxY: height - 1 })
+      const markedNeighbors = countMarkedNeighbors(board, { x, y, maxX: height - 1, maxY: width - 1 })
 
       // open only if all mines marked -> can be wrong marked!
       if (markedNeighbors === neighborMines) {
-        const neighbors = getNeighbours({ x, y, maxX: width - 1, maxY: height - 1 })
+        const neighbors = getNeighbours({ x, y, maxX: height - 1, maxY: width - 1 })
         const closedNeighbors = neighbors.filter(
           candidate => board[candidate.x][candidate.y].visibleStatus === VisibleCellStatus.Closed
         )
