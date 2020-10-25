@@ -65,7 +65,9 @@ export function GameScreen() {
 
   return (
     <div>
-      <DifficultyPicker disabled={isInProgress} selected={difficulty} onChange={setDifficulty} />
+      <div className="game-screen--difficulty">
+        <DifficultyPicker disabled={isInProgress} selected={difficulty} onChange={setDifficulty} />
+      </div>
 
       <div className="game-screen--buttons">
         {isInProgress ? (

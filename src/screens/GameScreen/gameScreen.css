@@ -1,3 +1,10 @@
 .game-screen--buttons {
-  margin: 8px 0;
+  text-align: center;
+  margin: 8px 10px;
+}
+
+.game-screen--difficulty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

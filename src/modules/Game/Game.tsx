@@ -191,9 +191,10 @@ export function Game({
         <span className="board--counter--label">Helpers left:</span>
         <span className="board--counter helpers">{helpersAvailable}</span>
       </div>
-      <main className="board">
-        {board.map((rows, rowIndex) => {
-          return (
+
+      <div className="board--window">
+        <main className="board" style={{ width: 28 * width }}>
+          {board.map((rows, rowIndex) => (
             <section key={rowIndex} className="row">
               {rows.map((cell, columnIndex) => {
                 const mainClick = isFinished ? noop : handleMainAction(rowIndex, columnIndex, cell)
@@ -203,9 +204,9 @@ export function Game({
                 return <Cell key={columnIndex} {...cell} onSecondaryClick={secondaryClick} onClick={mainClick} />
               })}
             </section>
-          )
-        })}
-      </main>
+          ))}
+        </main>
+      </div>
     </>
   )
 }

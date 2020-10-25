@@ -1,7 +1,8 @@
 .board-counters {
-  margin: 12px 0 8px;
+  margin: 12px 10px 8px;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .board--counter {
@@ -25,9 +26,13 @@
   color: green;
 }
 
+.board--window {
+  overflow-x: auto;
+}
+
 .board {
-  overflow: auto;
   border: 2px solid tomato;
+  margin: 0 auto;
 }
 
 .board .row {

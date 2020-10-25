@@ -1,3 +1,7 @@
 .difficulty-picker {
-  margin: 8px 0;
+  margin: 0 0 8px;
+}
+
+.difficulty-picker .difficulty-picker--label {
+  margin: 8px 10px;
 }

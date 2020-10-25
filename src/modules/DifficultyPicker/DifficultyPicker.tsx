@@ -30,7 +30,11 @@ export const DifficultyPicker = React.memo(
         return null
       }
 
-      return <div className="difficulty-picker">{playingDifficulty.label}</div>
+      return (
+        <div className="difficulty-picker">
+          <div className="difficulty-picker--label">{playingDifficulty.label}</div>
+        </div>
+      )
     }
 
     return (
