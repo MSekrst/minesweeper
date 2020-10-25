@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
-import { Difficulty, GameStatus, IN_PROGRESS_STATUSES } from '../../model/Game'
+import { Difficulty, GameEndStatus, GameStatus, IN_PROGRESS_STATUSES } from '../../model/Game'
 import { difficulties } from '../../model/const'
 import { Button } from '../../components/Button'
 
 import { DifficultyPicker } from '../../modules/DifficultyPicker'
-import { Game } from '../../modules/Game'
+import { Game, GameInfoProvider } from '../../modules/Game'
+import { EndGameInfo, EndGameInfoProps } from '../../modules/EndGameInfo'
 import { useStoredState } from '../../utils/useStoredState'
 
 import './gameScreen.css'
@@ -13,8 +14,8 @@ import './gameScreen.css'
 export function GameScreen() {
   const [difficulty, setDifficulty] = useStoredState<Difficulty>('difficulty')
   const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.NotStarted)
+  const [endGameInfo, setEndGameInfo] = useState<EndGameInfoProps>()
   const [startTimestamp, setStartTimestamp] = useState<number>(Date.now())
-
   const [isRestarted, setIsRestarted] = useState<boolean>(false)
 
   const handleGameStart = useCallback(() => {
@@ -25,12 +26,15 @@ export function GameScreen() {
 
   const handleChangeDifficulty = useCallback(() => {
     setGameStatus(GameStatus.NotStarted)
+    setEndGameInfo(undefined)
   }, [])
 
   const handleGameRestart = useCallback(() => {
     setGameStatus(GameStatus.NotStarted)
 
     setIsRestarted(true)
+
+    setEndGameInfo(undefined)
   }, [])
 
   useEffect(() => {
@@ -42,20 +46,15 @@ export function GameScreen() {
   }, [handleGameStart, isRestarted])
 
   const handleGameEnd = useCallback(
-    (status: GameStatus) => {
+    (status: GameEndStatus) => {
       // TODO: better handlers (toast?) and leaderboard entry
 
-      if (status === GameStatus.Killed) {
-        console.log(`You died :(`)
-      }
+      const gameEnd = {
+        gameEndStatus: status,
+        secondsElapsed: (Date.now() - startTimestamp) / 1000,
+      } as EndGameInfoProps
 
-      if (status === GameStatus.Won) {
-        const now = Date.now()
-
-        const secondsElapsed = (now - startTimestamp) / 1000
-
-        console.log(`You have won in ${secondsElapsed}s`)
-      }
+      setEndGameInfo(gameEnd)
     },
     [startTimestamp]
   )
@@ -86,7 +85,13 @@ export function GameScreen() {
         )}
       </div>
 
-      {isInProgress && difficultyInfo && <Game onStatusChange={handleGameEnd} {...difficultyInfo.parameters} />}
+      {endGameInfo && <EndGameInfo {...endGameInfo} />}
+
+      {isInProgress && difficultyInfo && (
+        <GameInfoProvider value={{ gameStatus, gameParameters: difficultyInfo.parameters }}>
+          <Game onStatusChange={handleGameEnd} />
+        </GameInfoProvider>
+      )}
     </div>
   )
 }

@@ -1,0 +1,26 @@
+.end-game {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  margin: 16px 10px;
+}
+
+.end-game--message {
+  font-size: 20px;
+}
+
+.end-game--message.won {
+  color: green;
+}
+
+.end-game--message.died {
+  color: tomato;
+}
+
+.end-game--timer {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #404040;
+}

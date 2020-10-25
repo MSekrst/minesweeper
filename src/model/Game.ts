@@ -11,6 +11,9 @@ export enum GameStatus {
   NotStarted = 'notStarted',
   ToBeStarted = 'toBeStarted', // game started but no fields clicked
   InProgress = 'inProgress',
+}
+
+export enum GameEndStatus {
   Won = 'won', // user cleared all mines
   Killed = 'killed', // user clicked mine
 }
@@ -38,8 +41,6 @@ export enum VisibleCellStatus {
   ShowMine = 'show',
   Helper = 'helper',
   Defused = 'defused',
-  // TODO: add doubtful status
-  // Doubtful = 'doubtful',
 }
 
 export const PRIMARY_CLICK_STATUSES = [VisibleCellStatus.Opened, VisibleCellStatus.Closed, VisibleCellStatus.Helper]
@@ -47,3 +48,10 @@ export const PRIMARY_CLICK_STATUSES = [VisibleCellStatus.Opened, VisibleCellStat
 export const SECONDARY_CLICK_STATUSES = [VisibleCellStatus.Closed, VisibleCellStatus.Marked, VisibleCellStatus.Helper]
 
 export const MINE_COUNT_STATUSES = [VisibleCellStatus.Marked, VisibleCellStatus.Defused]
+
+export interface GameParameters {
+  mines: number
+  width: number
+  height: number
+  helpers?: number
+}

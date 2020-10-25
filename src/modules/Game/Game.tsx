@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 
 import './game.css'
 
-import { CellStatus, GameStatus, VisibleCellStatus } from '../../model/Game'
+import { CellStatus, GameEndStatus, VisibleCellStatus } from '../../model/Game'
 import { Cell } from './Cell/Cell'
 
 import {
@@ -15,21 +15,15 @@ import {
 } from './helpers'
 import { CellInfo } from './interface'
 
+import { GameInfoContext } from './GameInfoContext'
+
 const noop = () => {}
 
-export function Game({
-  onStatusChange,
-  mines,
-  width,
-  height,
-  helpers,
-}: {
-  onStatusChange: (status: GameStatus) => void
-  mines: number
-  width: number
-  height: number
-  helpers?: number
-}) {
+export function Game({ onStatusChange }: { onStatusChange: (status: GameEndStatus) => void }) {
+  const {
+    gameParameters: { width, height, mines, helpers },
+  } = useContext(GameInfoContext)
+
   const [board, setBoard] = useState(generateGameBoard(width, height, mines))
   const [isFinished, setIsFinished] = useState(false)
   const [helpersAvailable, setHelpersAvailable] = useState(helpers || 0)
@@ -45,7 +39,7 @@ export function Game({
       setBoard(newBoard)
       setIsFinished(true)
 
-      return onStatusChange(GameStatus.Killed)
+      return onStatusChange(GameEndStatus.Killed)
     },
     [board, onStatusChange]
   )
@@ -76,7 +70,7 @@ export function Game({
         newBoard = validateBoard(newBoard)
         setBoard(newBoard)
 
-        return onStatusChange(GameStatus.Won)
+        return onStatusChange(GameEndStatus.Won)
       } else {
         setBoard(newBoard)
       }
