@@ -9,8 +9,6 @@ import { ErrorScreen } from './screens/ErrorScreen'
 
 import './base.css'
 
-// TODO: add favicon
-
 function App() {
   return (
     <BrowserRouter>
