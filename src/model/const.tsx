@@ -40,7 +40,7 @@ export const difficulties = [
       </div>
     ),
     value: Difficulty.Hard,
-    parameters: { mines: 100, width: 20, height: 20, helpers: 3 },
+    parameters: { mines: 100, width: 20, height: 20, helpers: 4 },
     // 25%
   },
   {
@@ -50,7 +50,7 @@ export const difficulties = [
       </div>
     ),
     value: Difficulty.Extreme,
-    parameters: { mines: 150, width: 20, height: 30, helpers: 4 },
+    parameters: { mines: 150, width: 20, height: 30, helpers: 5 },
     // 25%
   },
 ]
