@@ -26,22 +26,22 @@ export const difficulties = [
   {
     label: (
       <div>
-        <strong>Medium</strong> - <i>10 x 15</i> - 50 mines
+        <strong>Medium</strong> - <i>16 x 20</i> - 50 mines
       </div>
     ),
     value: Difficulty.Medium,
-    parameters: { mines: 50, width: 10, height: 15, helpers: 2 },
-    // 20%
+    parameters: { mines: 50, width: 14, height: 20, helpers: 2 },
+    // 17.85%
   },
   {
     label: (
       <div>
-        <strong>Hard</strong> - <i>20 x 20</i> - 100 mines
+        <strong>Hard</strong> - <i>20 x 25</i> - 100 mines
       </div>
     ),
     value: Difficulty.Hard,
-    parameters: { mines: 100, width: 20, height: 20, helpers: 4 },
-    // 25%
+    parameters: { mines: 100, width: 20, height: 25, helpers: 3 },
+    // 19.23%
   },
   {
     label: (
@@ -50,7 +50,7 @@ export const difficulties = [
       </div>
     ),
     value: Difficulty.Extreme,
-    parameters: { mines: 150, width: 20, height: 30, helpers: 5 },
-    // 25%
+    parameters: { mines: 150, width: 20, height: 38, helpers: 3 },
+    // 19.74%
   },
 ]
