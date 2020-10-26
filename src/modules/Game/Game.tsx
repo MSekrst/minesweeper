@@ -54,17 +54,17 @@ export function Game({ onStatusChange }: { onStatusChange: (status: GameEndStatu
         newBoard = propagateToEmpty(newBoard, { x, y, maxX: height - 1, maxY: width - 1 })
       }
 
-      let implicitMines = 0
+      let clearCells = 0
 
       newBoard.forEach(row =>
         row.forEach(cell => {
-          if (cell.visibleStatus === VisibleCellStatus.Closed || cell.visibleStatus === VisibleCellStatus.Marked) {
-            implicitMines += 1
+          if (cell.visibleStatus === VisibleCellStatus.Opened) {
+            clearCells += 1
           }
         })
       )
 
-      if (implicitMines === mines) {
+      if (clearCells === height * width - mines) {
         setIsFinished(true)
 
         newBoard = validateBoard(newBoard)
