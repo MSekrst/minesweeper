@@ -18,14 +18,14 @@ function generateEmptyBoard(width: number, height: number) {
 }
 
 function fillMines(board: CellInfo[][], mines: number) {
-  const heightMaxIndex = board.length - 1
-  const widthMaxIndex = board[0].length - 1
+  const heightMaxIndex = board.length
+  const widthMaxIndex = board[0].length
 
   let minesRemaining = mines
 
   while (minesRemaining !== 0) {
-    const x = Math.round(Math.random() * heightMaxIndex)
-    const y = Math.round(Math.random() * widthMaxIndex)
+    const x = Math.floor(Math.random() * heightMaxIndex)
+    const y = Math.floor(Math.random() * widthMaxIndex)
 
     if (board[x][y].status === CellStatus.Clear) {
       board[x][y].status = CellStatus.Mine
