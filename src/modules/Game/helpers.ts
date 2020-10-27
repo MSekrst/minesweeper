@@ -24,8 +24,8 @@ function fillMines(board: CellInfo[][], mines: number) {
   let minesRemaining = mines
 
   while (minesRemaining !== 0) {
-    const x = Math.floor(Math.random() * heightMaxIndex)
-    const y = Math.floor(Math.random() * widthMaxIndex)
+    const x = Math.round(Math.random() * heightMaxIndex)
+    const y = Math.round(Math.random() * widthMaxIndex)
 
     if (board[x][y].status === CellStatus.Clear) {
       board[x][y].status = CellStatus.Mine
