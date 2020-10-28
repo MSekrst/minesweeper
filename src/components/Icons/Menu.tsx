@@ -1,10 +1,10 @@
 import React from 'react'
 
-export const Flag = React.memo(({ size = 18, fill = 'tomato' }: { size?: number; fill?: string }) => {
+export const Menu = React.memo(({ size = 18, fill = 'black' }: { size?: number; fill?: string }) => {
   return (
     <svg viewBox="0 0 24 24" fill={fill} width={size} height={size}>
       <path d="M0 0h24v24H0z" fill="none" />
-      <path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z" />
+      <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
     </svg>
   )
 })
