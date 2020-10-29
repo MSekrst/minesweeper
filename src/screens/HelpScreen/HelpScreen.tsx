@@ -57,7 +57,7 @@ export const HelpScreen = React.memo(() => {
       <h2 id="controls">
         Controls <a href="#controls">#</a> <a href="#help">&uarr;</a>
       </h2>
-      <p>
+      <div>
         Player has <strong>two controls available</strong>:{' '}
         <ol>
           <li>
@@ -81,7 +81,7 @@ export const HelpScreen = React.memo(() => {
           all adjacent not marked cells, but be careful, if mines are not correctly marked, it will result in a game
           over.
         </i>
-      </p>
+      </div>
 
       <h2 id="helpers">
         Helpers <a href="#helpers">#</a> <a href="#help">&uarr;</a>
@@ -102,7 +102,7 @@ export const HelpScreen = React.memo(() => {
       <h2 id="graphics">
         Graphics <a href="#graphics">#</a> <a href="#help">&uarr;</a>
       </h2>
-      <p>
+      <div>
         Basic graphics elements were discussed is other sections. This section will provide detailed graphics
         explanations.
         <br />
@@ -155,7 +155,7 @@ export const HelpScreen = React.memo(() => {
             <span className="help-list--label"> - Wrongly marked mine</span>
           </li>
         </ul>
-      </p>
+      </div>
     </div>
   )
 })

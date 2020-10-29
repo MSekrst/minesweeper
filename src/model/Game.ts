@@ -4,7 +4,7 @@ export enum Difficulty {
   Medium = 'medium',
   Hard = 'hard',
   Extreme = 'extreme',
-  // TODO: add custom settings
+  // TODO: add custom difficulty setting
   // Custom = 'custom',
 }
 
@@ -16,7 +16,7 @@ export enum GameStatus {
 
 export enum GameEndStatus {
   Won = 'won', // user cleared all mines
-  Killed = 'killed', // user clicked mine
+  Killed = 'killed', // user clicked a mine
 }
 
 export const IN_PROGRESS_STATUSES = [GameStatus.ToBeStarted, GameStatus.InProgress]

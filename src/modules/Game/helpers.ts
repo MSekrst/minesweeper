@@ -169,3 +169,17 @@ export function countMarkedNeighbors(board: CellInfo[][], params: GetNeighborsAr
 
   return markedNeighbors.length
 }
+
+export function countClearFields(board: CellInfo[][]) {
+  let clearCells = 0
+
+  board.forEach(row =>
+    row.forEach(cell => {
+      if (cell.visibleStatus === VisibleCellStatus.Opened) {
+        clearCells += 1
+      }
+    })
+  )
+
+  return clearCells
+}

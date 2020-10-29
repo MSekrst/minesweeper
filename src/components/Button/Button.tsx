@@ -7,11 +7,12 @@ interface ButtonProps {
   disabled?: boolean
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
   value?: string
+  className?: string
   style?: React.CSSProperties
 }
 
-export const Button = React.memo(({ children, ...props }: ButtonProps) => (
-  <button className="button" {...props}>
+export const Button = React.memo(({ children, className = '', ...props }: ButtonProps) => (
+  <button className={`button ${className}`} {...props}>
     {children}
   </button>
 ))

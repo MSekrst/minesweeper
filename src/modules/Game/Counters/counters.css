@@ -1,0 +1,27 @@
+.counters {
+  margin: 12px 10px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter {
+  font-weight: 700;
+  margin-left: 4px;
+}
+
+.counter--label {
+  margin-right: 4px;
+}
+
+.counter + .counter--label {
+  margin-left: 16px;
+}
+
+.counter.mines {
+  color: tomato;
+}
+
+.counter.helpers {
+  color: green;
+}

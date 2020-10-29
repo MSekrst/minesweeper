@@ -17,7 +17,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={GameScreen} />
           <Route path="/help" exact component={HelpScreen} />
-          {/* <Route path="/leaderboard" exact component={LeaderboardScreen} /> */}
+          <Route path="/leaderboard" exact component={LeaderboardScreen} />
           <Route component={ErrorScreen} />
         </Switch>
       </main>

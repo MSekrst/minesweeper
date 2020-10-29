@@ -5,6 +5,7 @@ import { EndGameInfoProps } from './interface'
 
 import './endGame.css'
 
+// TODO: render in portal via Toast service
 export const EndGameInfo = React.memo(({ gameEndStatus, secondsElapsed }: EndGameInfoProps) => {
   const hasWon = gameEndStatus === GameEndStatus.Won
 

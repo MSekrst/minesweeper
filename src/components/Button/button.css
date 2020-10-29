@@ -9,6 +9,7 @@
   cursor: pointer;
   transition: opacity 0.25s ease-in-out, color 0.25s ease-in-out;
   border-radius: 4px;
+  outline: none;
 }
 
 .button:hover {

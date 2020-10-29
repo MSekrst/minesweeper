@@ -12,10 +12,12 @@ import {
   getNeighbours,
   countMarkedMines,
   countMarkedNeighbors,
+  countClearFields,
 } from './helpers'
 import { CellInfo } from './interface'
 
 import { GameInfoContext } from './GameInfoContext'
+import { Counters } from './Counters/Counters'
 
 const noop = () => {}
 
@@ -26,24 +28,44 @@ export function Game({ onStatusChange }: { onStatusChange: (status: GameEndStatu
 
   const [board, setBoard] = useState(generateGameBoard(width, height, mines))
   const [isFinished, setIsFinished] = useState(false)
+  // helpers are used to safely open field
   const [helpersAvailable, setHelpersAvailable] = useState(helpers || 0)
 
-  const openMineCell = useCallback(
-    (x: number, y: number) => {
+  /**
+   * Handles game end scenario. Will reveal board and mark incorrectly marked cells.
+   */
+  const endGame = useCallback(
+    (board: CellInfo[][], isWin?: boolean) => {
       let newBoard = [...board]
-
-      newBoard[x][y].visibleStatus = VisibleCellStatus.Exploded
 
       newBoard = validateBoard(newBoard)
 
       setBoard(newBoard)
       setIsFinished(true)
 
-      return onStatusChange(GameEndStatus.Killed)
+      onStatusChange(isWin ? GameEndStatus.Won : GameEndStatus.Killed)
     },
-    [board, onStatusChange]
+    [onStatusChange]
   )
 
+  /**
+   * Handles mine click and calls end game handler.
+   */
+  const openMineCell = useCallback(
+    (x: number, y: number) => {
+      let newBoard = [...board]
+
+      newBoard[x][y].visibleStatus = VisibleCellStatus.Exploded
+
+      endGame(newBoard)
+    },
+    [board, endGame]
+  )
+
+  /**
+   * Handles clear cell click. If opened cell is empty, opens adjacent cells too.
+   * Calls end game if needed.
+   */
   const openClearCell = useCallback(
     (x: number, y: number, neighborMines: number) => {
       let newBoard = [...board]
@@ -54,30 +76,22 @@ export function Game({ onStatusChange }: { onStatusChange: (status: GameEndStatu
         newBoard = propagateToEmpty(newBoard, { x, y, maxX: height - 1, maxY: width - 1 })
       }
 
-      let clearCells = 0
+      const clearCells = countClearFields(newBoard)
+      const maximumClearCells = height * width - mines
 
-      newBoard.forEach(row =>
-        row.forEach(cell => {
-          if (cell.visibleStatus === VisibleCellStatus.Opened) {
-            clearCells += 1
-          }
-        })
-      )
-
-      if (clearCells === height * width - mines) {
-        setIsFinished(true)
-
-        newBoard = validateBoard(newBoard)
-        setBoard(newBoard)
-
-        return onStatusChange(GameEndStatus.Won)
+      if (clearCells === maximumClearCells) {
+        endGame(newBoard, true)
       } else {
         setBoard(newBoard)
       }
     },
-    [board, onStatusChange, height, width, mines]
+    [board, height, width, mines, endGame]
   )
 
+  /**
+   * Handles adjacent cells reveal. Reveal will only happen if clicked cell has all its mines marked.
+   * This operation can be dangerous for player, because if mines are wrongly marked it will result in game over.
+   */
   const openNeighbors = useCallback(
     (x: number, y: number, neighborMines: number) => {
       const markedNeighbors = countMarkedNeighbors(board, { x, y, maxX: height - 1, maxY: width - 1 })
@@ -105,6 +119,9 @@ export function Game({ onStatusChange }: { onStatusChange: (status: GameEndStatu
     [board, height, width, openMineCell, openClearCell]
   )
 
+  /**
+   * Handles defused mine cell open. Player has used helper so this operation is safe.
+   */
   const openDefusedMineCell = useCallback(
     (x: number, y: number) => {
       let newBoard = [...board]
@@ -116,6 +133,9 @@ export function Game({ onStatusChange }: { onStatusChange: (status: GameEndStatu
     [board]
   )
 
+  /**
+   * Main handler for primary action (click / tap). Calls more specific handlers.
+   */
   const handleMainAction = useCallback(
     (x: number, y: number, cell: CellInfo) => () => {
       const { visibleStatus, status, mines } = cell
@@ -137,6 +157,9 @@ export function Game({ onStatusChange }: { onStatusChange: (status: GameEndStatu
     [openMineCell, openClearCell, openNeighbors, openDefusedMineCell]
   )
 
+  /**
+   * Secondary action handler (right click / long press). Changes cell status (mine marked, helper, nothing).
+   */
   const handleSecondaryAction = useCallback(
     (x: number, y: number, cell: CellInfo) => () => {
       let newBoard = [...board]
@@ -179,12 +202,7 @@ export function Game({ onStatusChange }: { onStatusChange: (status: GameEndStatu
 
   return (
     <>
-      <div className="board-counters">
-        <span className="board--counter--label">Mines Left:</span>
-        <span className="board--counter mines">{nonMarkedMines}</span>
-        <span className="board--counter--label">Helpers left:</span>
-        <span className="board--counter helpers">{helpersAvailable}</span>
-      </div>
+      <Counters helpersAvailable={helpersAvailable} nonMarkedMines={nonMarkedMines} />
 
       <div className="board--window">
         <main className="board" style={{ width: 28 * width }}>
